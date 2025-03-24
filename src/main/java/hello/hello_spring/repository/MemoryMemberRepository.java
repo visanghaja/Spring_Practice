@@ -1,9 +1,11 @@
 package hello.hello_spring.repository;
 
 import hello.hello_spring.domain.Member;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
+// @Repository // 스프링에서 리포지토리로 인식!
 public class MemoryMemberRepository implements MemberRepository {
 
     private static Map<Long, Member> store = new HashMap<>(); // ctrl + space로 import!
@@ -35,4 +37,8 @@ public class MemoryMemberRepository implements MemberRepository {
         return new ArrayList<>(store.values());
     }
     // Alt + Ins 해서 method 한번에!
+
+    public void clearStore() {
+        store.clear();
+    }
 }

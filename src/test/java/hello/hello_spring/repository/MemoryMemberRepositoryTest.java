@@ -15,6 +15,8 @@ class MemoryMemberRepositoryTest { // 클래스에서 테스트 돌리면 전체
 
     @AfterEach // 모든 메소드가 한번씩 실행 할때마다 실행
     public void afterEach() {
+        // 메소드 끝날때마다 clear 해주도록 (콜백 메소드)
+        repository.clearStore();
 
     }
 

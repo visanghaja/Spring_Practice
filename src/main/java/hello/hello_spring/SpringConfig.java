@@ -1,9 +1,8 @@
 package hello.hello_spring;
 
-import hello.hello_spring.repository.JdbcMemberRepository;
-import hello.hello_spring.repository.MemberRepository;
-import hello.hello_spring.repository.MemoryMemberRepository;
+import hello.hello_spring.repository.*;
 import hello.hello_spring.service.MemberService;
+import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,23 +12,42 @@ import javax.sql.DataSource;
 @Configuration
 public class SpringConfig {
 
-    private DataSource dataSource;
+//    private EntityManager em;
+//
+//    @Autowired
+//    public SpringConfig(EntityManager em) {
+//        this.em = em;
+//    }
 
-    @Autowired // alt + enter
-    public SpringConfig(DataSource dataSource) {
-        this.dataSource = dataSource;
+//    private DataSource dataSource;
+//
+//    @Autowired // alt + enter
+//    public SpringConfig(DataSource dataSource) {
+//        this.dataSource = dataSource;
+//    }
+
+
+    private final MemberRepository memberRepository;
+    // 이렇게 하면 SpringDataJpaMemberRepository 가 자동으로 등록됨
+
+    @Autowired
+    public SpringConfig(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
     }
+    // 이렇게 하면 자기가 알아서 기능 구현함!
 
-    @Bean
-    public MemberService memberService() {
-        return new MemberService(memberRepository());
-    }
+     @Bean
+     public MemberService memberService() {
+         return new MemberService(memberRepository);
+     }
 
-    @Bean
-    public MemberRepository memberRepository() {
+    // @Bean
+    // public MemberRepository memberRepository() {
         // return new MemoryMemberRepository();
-        return new JdbcMemberRepository(dataSource);
+        // return new JdbcMemberRepository(dataSource);
+        // return  new JdbcTemplateMemberRepository(dataSource);
+        // return new JpaMemberRepository(em);
         // 다형성!!
-    }
+    // }
 
 }
